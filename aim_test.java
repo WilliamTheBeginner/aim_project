@@ -66,15 +66,15 @@ public class aim_test extends JFrame
         }
         else if(me.getButton() == MouseEvent.BUTTON1)
         {
-          System.out.println("Button 1");
+          System.out.println("Button 1" + me.getX() + " " + me.getY());
         }
         else if(me.getButton() == MouseEvent.BUTTON2)
         {
-          System.out.println("Button 2");
+          System.out.println("Button 2" + me.getX() + " " + me.getY());
         }
         else if(me.getButton() == MouseEvent.BUTTON3)
         {
-          System.out.println("Button 3");
+          System.out.println("Button 3" + me.getX() + " " + me.getY());
         }
       }
     });
