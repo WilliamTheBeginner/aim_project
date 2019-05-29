@@ -46,14 +46,6 @@ public class aim_test extends JFrame
     layeredPane.add(alsXYMouseLabel, JLayeredPane.DRAG_LAYER);
     alsXYMouseLabel.setBounds(0, 0, jFrame.getWidth(), jFrame.getHeight());
 
-    Ball ball = new Ball();
-    ball.drawBall(jFrame);
-    Ball.setBallBorderColor(Color.red);
-    Ball.setBallWidth(100);
-    Ball.setBallHeight(100);
-    Ball.setBallX(0);
-    Ball.setBallY(100);
-    Ball.drawBall(window);
 
     // add a mouse motion listener, and update my custom mouse cursor with the x/y
     // coordinates as the user moves the mouse
@@ -88,6 +80,8 @@ public class aim_test extends JFrame
       }
     });
 
+
+
     // make the cursor a crosshair shape
     jFrame.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
@@ -121,6 +115,24 @@ class AlsXYMouseLabelComponent extends JComponent
   }
 }
 
+/*
+class DrawCircle extends JFrame{
+  public DrawCircle(JFrame j)
+  {
+    JPanel p = new JPanel();
+
+    public void paintComponent(Graphics g)
+    {
+      Graphics 2D 2g =  (Graphics2D) g;
+      Shape circle = new Ellipse2D.Double(100, 100, 100, 100);
+    }
+
+    p.getContentPane().add(p);
+  }
+}
+*/
+
+/*
 class Ball
 {
 
@@ -215,3 +227,4 @@ class Ball
 
 
 }
+*/
