@@ -46,6 +46,15 @@ public class aim_test extends JFrame
     layeredPane.add(alsXYMouseLabel, JLayeredPane.DRAG_LAYER);
     alsXYMouseLabel.setBounds(0, 0, jFrame.getWidth(), jFrame.getHeight());
 
+    Ball ball = new Ball();
+    ball.drawBall(jFrame);
+    Ball.setBallBorderColor(Color.red);
+    Ball.setBallWidth(100);
+    Ball.setBallHeight(100);
+    Ball.setBallX(0);
+    Ball.setBallY(100);
+    Ball.drawBall(window);
+
     // add a mouse motion listener, and update my custom mouse cursor with the x/y
     // coordinates as the user moves the mouse
     jFrame.addMouseMotionListener(new MouseMotionAdapter() {
@@ -88,6 +97,7 @@ public class aim_test extends JFrame
 
 }
 
+
 /**
  * This is the class that draws the x/y coordinates
  * near the mouse cursor/pointer.
@@ -109,4 +119,99 @@ class AlsXYMouseLabelComponent extends JComponent
     g.setColor(Color.red);
     g.drawString(s, x, y);
   }
+}
+
+class Ball
+{
+
+    private Color ballFillColor;
+    private Color ballBorderColor;
+
+    private int ballX = 0;
+    private int ballY = 0;
+    private int ballWidth = 0;
+    private int ballHeight = 0;
+
+    public boolean fillBall = false;
+
+    Ball(){ //Constructor
+        ballBorderColor = Color.black;
+    }
+
+    Ball(int ballX, int ballY, int ballWidth, int ballHeight, Color ballBorderColor, JFrame window){ //Constructor
+        // X , Y , Width, Height, Border Colour, container
+        this.setBallBorderColor(ballBorderColor);
+        this.setBallWidth(ballWidth);
+        this.setBallHeight(ballHeight);
+        this.setBallX(ballX);
+        this.setBallY(ballY);
+        this.drawBall(window);
+    }
+
+    public Color getBallFillColor() {
+        return ballFillColor;
+    }
+    public void setBallFillColor(Color BallFillColor) {
+        this.ballFillColor = BallFillColor;
+    }
+
+    public Color getBallBorderColor() {
+        return ballBorderColor;
+    }
+    public void setBallBorderColor(Color BallBorderColor) {
+        this.ballBorderColor = BallBorderColor;
+    }
+
+    public int getBallX() {
+        return ballX;
+    }
+    public void setBallX(int ballX) {
+        this.ballX = ballX;
+    }
+
+    public int getBallY() {
+        return ballY;
+    }
+    public void setBallY(int ballY) {
+        this.ballY = ballY;
+    }
+
+    public int getBallWidth() {
+        return ballWidth;
+    }
+    public void setBallWidth(int ballWidth) {
+        this.ballWidth = ballWidth;
+    }
+
+
+    public int getBallHeight() {
+        return ballHeight;
+    }
+    public void setBallHeight(int ballHeight) {
+        this.ballHeight = ballHeight;
+    }
+
+
+    public void drawBall(JFrame frame)
+    {
+        frame.getContentPane().add(new MyComponent());
+    }
+
+
+    private class MyComponent extends JComponent{
+        public void paint(Graphics g){
+
+            if (fillBall) //Fill first, and then draw outline.
+            {
+                g.setColor(ballFillColor);
+                g.fillOval(getBallX(),getBallY(), getBallHeight(),getBallWidth());
+            }
+
+            g.setColor(getBallBorderColor());
+            g.drawOval(getBallX(),getBallY(), getBallHeight(),getBallWidth());
+
+        }
+    }
+
+
 }
