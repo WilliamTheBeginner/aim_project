@@ -31,3 +31,12 @@ public class arc_test
     }
   }
 }
+class Circle
+{
+  private int radius;
+
+  public Circle(int r, Console con)
+  {
+    
+  }
+}
