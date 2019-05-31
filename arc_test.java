@@ -143,10 +143,42 @@ class Menu
 {
   public Menu(Console con)
   {
+    displayMain(con);
+
+    while(true)
+    {
+      int mouseX = con.currentMouseX();
+      int mouseY = con.currentMouseY();
+
+      if(con.currentMouseButton() == 1)
+      {
+        switch()
+      }
+    }
+
+  }
+  public void displayMain(Console con)
+  {
     Button start = new Button(300, 500, 500, 200);
     Button options = new Button(300, 790, 500, 200);
     Button help = new Button(1120, 500, 500, 200);
     Button quit = new Button(1120, 790, 500, 200);
+
+    start.draw(con);
+    options.draw(con);
+    help.draw(con);
+    quit.draw(con);
   }
-  
+  public boolean between(int i, int min, int max)
+  {
+    if(i >= min && i <= max)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
 }
