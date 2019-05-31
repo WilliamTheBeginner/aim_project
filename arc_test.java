@@ -12,7 +12,7 @@ public class arc_test
     for(int i = 0; i < 100; i++)
     {
 
-      Circle cir = new Circle();
+      Circle cir = new Circle(50);
 
       cir.draw(con);
 
@@ -143,9 +143,10 @@ class Menu
 {
   public Menu(Console con)
   {
-    Button start = new Button()
-    Button options = new Button();
-    Button help = new Button();
-    Button quit = new Button();
+    Button start = new Button(300, 500, 500, 200);
+    Button options = new Button(300, 790, 500, 200);
+    Button help = new Button(1120, 500, 500, 200);
+    Button quit = new Button(1120, 790, 500, 200);
   }
+  
 }
