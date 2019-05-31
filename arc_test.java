@@ -1,5 +1,6 @@
 import arc.*;
 import java.util.Arrays;
+import java.awt.*;
 
 public class arc_test
 {
@@ -7,29 +8,23 @@ public class arc_test
   {
     Console con = new Console(1920, 1080);
 
-    Circle cir = new Circle();
+    for(int i = 0; i < 100; i++)
+    {
 
-    cir.draw(con);
+      Circle cir = new Circle();
 
-    con.println(Arrays.toString(cir.getRadXY()));
+      cir.draw(con);
 
-
-	/*
-    int ovalX = (int)(Math.random() * 1770);
-    int ovalY = (int)(Math.random() * 930);
-
-    con.drawOval(ovalX, ovalY, 150, 150);
+      con.repaint();
 
 
-    int ovalRadX = ovalX + 75;
-    int ovalRadY = ovalY + 75;
+      con.println(Arrays.toString(cir.getRadXY()));
 
-    con.drawLine(ovalRadX, ovalRadY, 1200, 700);
-    */
+      clickCircle(cir, con);
 
-    clickCircle(cir, con);
+    }
 
-    int foo = 1;
+
 
   }
   public static boolean clickCircle(Circle circle, Console con)
@@ -58,9 +53,23 @@ public class arc_test
 			  if(((Math.pow((con.currentMouseX() - radX), 2) + Math.pow((con.currentMouseY() - radY), 2)) < Math.pow(circle.getRadius(), 2)))
 			  {
 				  con.println(foo);
+          clearConsole(con);
+          return true;
 			  }
 		  }
 	  }
+  }
+
+  public static void clearConsole(Console con)
+  {
+    con.setDrawColor(Color.BLACK);
+    con.fillRect(0, 0, 1920, 1080);
+    con.repaint();
+  }
+
+  public static void clearCircle(Circle cir, Console con)
+  {
+    ;
   }
 }
 class Circle
@@ -106,6 +115,7 @@ class Circle
   {
 	  int drawX = radX - radius;
 	  int drawY = radY - radius;
+    con.setDrawColor(Color.WHITE);
 	  con.drawOval(drawX, drawY, radius * 2, radius * 2);
   }
 }
