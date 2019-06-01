@@ -12,7 +12,7 @@ public class file_test
     {
       String line = infile.readLine();
 
-      con.println(line);
+      con.println(line + "HE");
     }
   }
 }
