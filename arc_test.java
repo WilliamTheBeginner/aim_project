@@ -149,6 +149,8 @@ class Menu
   {
     displayMain(con);
 
+    TextInputFile infile = new TextInputFile("Settings.txt");
+
     while(true)
     {
       int mouseX = con.currentMouseX();
