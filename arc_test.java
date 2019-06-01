@@ -23,9 +23,6 @@ public class arc_test
       clickCircle(cir, con);
 
     }
-
-
-
   }
   public static boolean clickCircle(Circle circle, Console con)
   {
@@ -137,6 +134,13 @@ class Button
   {
     con.drawRect(dimX, dimY, length, width);
   }
+  public int [] getDims()
+  {
+    int arr[] = new int[2]
+    arr[0] = dimX;
+    arr[1] = dimY;
+    return arr;
+  }
 
 }
 class Menu
@@ -152,9 +156,19 @@ class Menu
 
       if(con.currentMouseButton() == 1)
       {
-        switch()
+        switch(menuClick(con))
+        {
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+        }
       }
     }
+
+  }
+  public void displayCircleGame(Circle cir, Console con)
+  {
 
   }
   public void displayMain(Console con)
@@ -178,6 +192,34 @@ class Menu
     else
     {
       return false;
+    }
+  }
+  public int menuClick(Console con)
+  {
+    while (true)
+    {
+      int mouseX = con.currentMouseX();
+      int mouseY = con.currentMouseY();
+
+      if(con.currentMouseButton == 1)
+      {
+        if(between(MouseX, 300, 800) && between(MouseY, 500, 700))
+        {
+          return 1;
+        }
+        else if(between(MouseX, 300, 800) && between(MouseY, 790, 1190))
+        {
+          return 2;
+        }
+        else if(between(MouseX, 1120, 1620) && between(MouseY, 500, 700))
+        {
+          return 3;
+        }
+        else if(between(MouseX, 1120, 1620) && between(MouseY, 790, 1190))
+        {
+          return 4;
+        }
+      }
     }
   }
 
