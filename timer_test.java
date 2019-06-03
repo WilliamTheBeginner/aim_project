@@ -7,13 +7,13 @@ public class timer_test {
         Timer timer = new Timer();
         timer.start();
         int foo = 0;
-        /*
+        
         Timer7 t7 = new Timer7(timer);
         t7.start();
-
+		
         Timer15 t15 = new Timer15(timer);
         t15.start();
-        */
+        
 
         Console con = new Console();
 
@@ -39,7 +39,7 @@ class Timer extends Thread{
                 e.printStackTrace();
             }
 
-            System.out.print(time + " ");
+            //System.out.print(time + " ");
             setTime(time + 1);
             //Switching the order of these 2 ^^^ statements and initializing time to 0 will give an output that is more accurate to the time.
         }
@@ -63,6 +63,8 @@ class Timer extends Thread{
 
 class Timer7 extends Thread{
     Timer timer;
+    
+    public int five = 1;
     public Timer7(Timer t){
         this.timer = t;
     }
@@ -77,14 +79,21 @@ class Timer7 extends Thread{
                     e.printStackTrace();
                 }
 
-                if(timer.getTime() % 7 == 0){
-                    System.out.print("\n7 Second Message\n");
+                if(timer.getTime() % 5 == 0){
+                    this.five = 0;
+                    
+                    System.out.print("\n5 Second Message\n");
+                    
                 }
 
             }
         }
     }
+    
+    
 }
+
+
 
 class Timer15 extends Thread{
     Timer timer;
