@@ -149,8 +149,6 @@ class Menu
   {
     displayMain(con);
 
-    TextInputFile infile = new TextInputFile("Settings.txt");
-
     while(true)
     {
       int mouseX = con.currentMouseX();
@@ -161,7 +159,28 @@ class Menu
         switch(menuClick(con))
         {
           case 1:
+            // put timer in the middle of screen... THEN displaycirclegame
+            // choose which timer to use
+            TextInputFile infile = new TextInputFile("Settings.txt");
+
+            int radius, seconds;
+
+            while(infile.eof() != true)
+            {
+              radius = infile.readInt();
+              seconds = infile.readInt();
+            }
+
+            clearConsoleMenu(con);
+
+            for(int i = 1; i <= 3; i++){
+              //tiemr for 3 seconds
+              con.print(i + " ");
+              con.sleep(1000);
+            }
+
           case 2:
+            // change file options
           case 3:
           case 4:
         }
@@ -196,6 +215,12 @@ class Menu
       return false;
     }
   }
+  public static void clearConsoleMenu(Console con)
+  {
+    con.setDrawColor(Color.BLACK);
+    con.fillRect(0, 0, 1920, 1080);
+    con.repaint();
+  }
   public int menuClick(Console con)
   {
     while (true)
@@ -224,5 +249,95 @@ class Menu
       }
     }
   }
+}
+class Timer extends Thread{
+    private int time = 1;
+    private boolean setting = false;
 
+    public void run(){
+        while(true){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.print(29 - time + " ");
+            setTime(time + 1);
+            //Switching the order of these 2 ^^^ statements and initializing time to 0 will give an output that is more accurate to the time.
+        }
+    }
+    public synchronized int getTime(){
+        while(setting){
+            try {
+                wait(); //This will only be run on the off-chance that setTime is being run at the same time.
+            } catch (InterruptedException e) {  }
+        }
+
+        return time;
+    }
+    public synchronized void setTime(int t){
+        setting = true;
+        this.time = t;
+        setting = false;
+        notifyAll();
+    }
+}
+
+class Timer30 extends Thread{
+    Timer timer;
+
+    public int five = 1;
+    public Timer7(Timer t){
+        this.timer = t;
+    }
+
+    public void run(){
+        synchronized(timer){
+            while(true){
+
+                try {
+                    timer.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if(timer.getTime() % 30 == 0){
+                    timer_test test = new timer_test();
+
+                    test.catchTimer();
+                }
+
+            }
+        }
+    }
+}
+
+class Timer60 extends Thread{
+    Timer timer;
+
+    public int five = 1;
+    public Timer7(Timer t){
+        this.timer = t;
+    }
+
+    public void run(){
+        synchronized(timer){
+            while(true){
+
+                try {
+                    timer.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if(timer.getTime() % 60 == 0){
+                    timer_test test = new timer_test();
+
+                    test.catchTimer();
+                }
+
+            }
+        }
+    }
 }
