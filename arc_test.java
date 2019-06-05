@@ -57,11 +57,6 @@ public class arc_test
     con.fillRect(0, 0, 1920, 1080);
     con.repaint();
   }
-
-  public static void clearCircle(Circle cir, Console con)
-  {
-    ;
-  }
 }
 class Circle
 {
@@ -136,13 +131,14 @@ class Button
   }
   public int [] getDims()
   {
-    int arr[] = new int[2]
+    int arr[] = new int[2];
     arr[0] = dimX;
     arr[1] = dimY;
     return arr;
   }
 
 }
+
 class Menu
 {
   public Menu(Console con)
@@ -179,6 +175,25 @@ class Menu
               con.sleep(1000);
             }
 
+            Console timerConsole = new Console();
+
+            Timer timer = new Timer();
+            timer.start();
+
+            if(seconds == 30){
+              Timer30 t30 = new Timer30(timer);
+              t30.start();
+            } else {
+              Timer60 t60 = new Timer60(timer);
+              t60.start();
+            }
+
+            displayCircleGame(radius, con);
+
+
+
+
+
           case 2:
             // change file options
           case 3:
@@ -188,9 +203,20 @@ class Menu
     }
 
   }
-  public void displayCircleGame(Circle cir, Console con)
-  {
 
+  public int displayCircleGame(int radius, Console con)
+  {
+    while(catchTimer() != true){
+      // display circles
+      Circle cir = new Circle(radius);
+      cir.draw(con);
+      con.repaint();
+      con.println(Arrays.toString(cir.getRadXY()));
+      clickCircle(cir, con);
+    }
+  }
+  public static void catchTimer(){
+    return true;
   }
   public void displayMain(Console con)
   {
@@ -215,6 +241,32 @@ class Menu
       return false;
     }
   }
+  public static boolean clickCircle(Circle circle, Console con)
+  {
+	  int [] radarr = new int[2];
+
+	  radarr = circle.getRadXY();
+
+	  int radX = radarr[0];
+	  int radY = radarr[1];
+
+    con.println(radX);
+    con.println(radY);
+
+    con.println(circle.getRadius());
+
+	  while(true)
+	  {
+		  if(con.currentMouseButton() == 1)
+		  {
+			  if(((Math.pow((con.currentMouseX() - radX), 2) + Math.pow((con.currentMouseY() - radY), 2)) < Math.pow(circle.getRadius(), 2)))
+			  {
+          clearConsoleMenu(con);
+          return true;
+			  }
+		  }
+	  }
+  }
   public static void clearConsoleMenu(Console con)
   {
     con.setDrawColor(Color.BLACK);
@@ -228,21 +280,21 @@ class Menu
       int mouseX = con.currentMouseX();
       int mouseY = con.currentMouseY();
 
-      if(con.currentMouseButton == 1)
+      if(con.currentMouseButton() == 1)
       {
-        if(between(MouseX, 300, 800) && between(MouseY, 500, 700))
+        if(between(mouseX, 300, 800) && between(mouseY, 500, 700))
         {
           return 1;
         }
-        else if(between(MouseX, 300, 800) && between(MouseY, 790, 1190))
+        else if(between(mouseX, 300, 800) && between(mouseY, 790, 1190))
         {
           return 2;
         }
-        else if(between(MouseX, 1120, 1620) && between(MouseY, 500, 700))
+        else if(between(mouseX, 1120, 1620) && between(mouseY, 500, 700))
         {
           return 3;
         }
-        else if(between(MouseX, 1120, 1620) && between(MouseY, 790, 1190))
+        else if(between(mouseX, 1120, 1620) && between(mouseY, 790, 1190))
         {
           return 4;
         }
@@ -250,22 +302,34 @@ class Menu
     }
   }
 }
+
 class Timer extends Thread{
     private int time = 1;
     private boolean setting = false;
+    private volatile boolean exit = false;
 
+    Console con = new Console("Time left:");
+
+    @Override
     public void run(){
-        while(true){
+        while(exit != true){
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            System.out.print(29 - time + " ");
+            con.clear();
+            con.print(29 - time + " ");
+            //System.out.print(29 - time + " ");
             setTime(time + 1);
             //Switching the order of these 2 ^^^ statements and initializing time to 0 will give an output that is more accurate to the time.
         }
+    }
+    public void close() {
+      exit = true;
+      con.closeWindow();
+      Console cons = new Console();
+
     }
     public synchronized int getTime(){
         while(setting){
@@ -303,9 +367,7 @@ class Timer30 extends Thread{
                 }
 
                 if(timer.getTime() % 30 == 0){
-                    timer_test test = new timer_test();
-
-                    test.catchTimer();
+                    timer.close();
                 }
 
             }
@@ -332,12 +394,19 @@ class Timer60 extends Thread{
                 }
 
                 if(timer.getTime() % 60 == 0){
-                    timer_test test = new timer_test();
-
-                    test.catchTimer();
+                    timer.close();
                 }
 
             }
         }
     }
+}
+
+class DScore {
+  public DScore(){
+    ;
+  }
+  public DScore(int score, Console con){
+    con.println("Game over. Score: " + score);
+  }
 }
