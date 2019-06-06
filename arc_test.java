@@ -11,39 +11,6 @@ public class arc_test
 
     Menu menu = new Menu(con);
   }
-  public static boolean clickCircle(Circle circle, Console con)
-  {
-	  int [] radarr = new int[2];
-
-	  radarr = circle.getRadXY();
-
-	  int radX = radarr[0];
-	  int radY = radarr[1];
-
-    con.println(radX);
-    con.println(radY);
-
-    con.println(circle.getRadius());
-
-	  while(true)
-	  {
-		  if(con.currentMouseButton() == 1)
-		  {
-			  if(((Math.pow((con.currentMouseX() - radX), 2) + Math.pow((con.currentMouseY() - radY), 2)) < Math.pow(circle.getRadius(), 2)))
-			  {
-          clearConsole(con);
-          return true;
-			  }
-		  }
-	  }
-  }
-
-  public static void clearConsole(Console con)
-  {
-    con.setDrawColor(Color.BLACK);
-    con.fillRect(0, 0, 1920, 1080);
-    con.repaint();
-  }
 }
 class Circle
 {
@@ -104,7 +71,7 @@ class Button
   private int dimX;
   private int dimY;
 
-  public Button(int length, int width, int dimX, int dimY)
+  public Button(int dimX, int dimY, int length, int width)
   {
     this.length = length;
     this.width = width;
@@ -142,8 +109,6 @@ class Menu
         switch(menuClick(con))
         {
           case 1:
-            // put timer in the middle of screen... THEN displaycirclegame
-            // choose which timer to use
             TextInputFile infile = new TextInputFile("Settings.txt");
 
             int radius = 0;
@@ -157,6 +122,8 @@ class Menu
 
             clearConsoleMenu(con);
 
+            con.println("move console");
+
             for(int i = 1; i <= 3; i++){
               //tiemr for 3 seconds
               con.print(i + " ");
@@ -164,17 +131,21 @@ class Menu
             }
 
             Console timerConsole = new Console();
-
             Timer timer = new Timer(timerConsole);
-            timer.start();
 
             if(seconds == 30){
+              timer.addDur(seconds - 1);
+              timer.start();
               Timer30 t30 = new Timer30(timer);
               t30.start();
             } else {
+              timer.addDur(seconds - 1);
+              timer.start();
               Timer60 t60 = new Timer60(timer);
               t60.start();
             }
+
+            //something is wrong with vv
 
             displayCircleGame(radius, con, timer);
 
@@ -211,6 +182,7 @@ class Menu
   public void displayMain(Console con)
   {
     Button start = new Button(300, 500, 500, 200);
+    con.drawString("Start Game",475,570);
     Button options = new Button(300, 790, 500, 200);
     Button help = new Button(1120, 500, 500, 200);
     Button quit = new Button(1120, 790, 500, 200);
@@ -247,7 +219,7 @@ class Menu
 
 	  while(true)
 	  {
-		  if(con.currentMouseButton() == 1)
+      if(con.currentMouseButton() == 1)
 		  {
 			  if(((Math.pow((con.currentMouseX() - radX), 2) + Math.pow((con.currentMouseY() - radY), 2)) < Math.pow(circle.getRadius(), 2)))
 			  {
@@ -255,6 +227,7 @@ class Menu
           return true;
 			  }
 		  }
+      //con.currentMouseButton() = 0;
 	  }
   }
   public static void clearConsoleMenu(Console con)
@@ -298,9 +271,13 @@ class Timer extends Thread{
     private boolean setting = false;
     private volatile boolean exit = false;
     private Console con = null;
+    private int dur;
 
     public Timer(Console con){
       this.con = con;
+    }
+    public void addDur(int dur){
+      this.dur = dur;
     }
     public boolean getStatus(){
       return exit;
@@ -313,7 +290,7 @@ class Timer extends Thread{
                 e.printStackTrace();
             }
             con.clear();
-            con.print(29 - time + " ");
+            con.print(dur - time + " ");
             //System.out.print(29 - time + " ");
             setTime(time + 1);
             //Switching the order of these 2 ^^^ statements and initializing time to 0 will give an output that is more accurate to the time.
@@ -385,7 +362,7 @@ class Timer60 extends Thread{
                 }
 
                 if(timer.getTime() % 60 == 0){
-                    System.out.print("\n15 Second Message\n");
+                    timer.stopi();
                 }
 
             }
