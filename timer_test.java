@@ -8,10 +8,12 @@ public class timer_test {
     public static synchronized void main(String[] args) {
 
         Console con = new Console();
+        Console cons = new Console();
 
-        Timer timer = new Timer();
+        Timer timer = new Timer(con);
+
         timer.start();
-        int foo = 0;
+        int foo = 30;
 
         Timer7 t7 = new Timer7(timer);
         t7.start();
@@ -19,19 +21,22 @@ public class timer_test {
         Timer15 t15 = new Timer15(timer);
         t15.start();
 
+        timercheck(timer, cons);
 
-        while(i == 0)
-        {
-          con.println("i");
-          con.sleep(1000);
-        }
+        Console con2 = new Console();
+        con2.println("LOL");
 
-        timer_test test = new timer_test();
 
     }
-    public static void catchTimer(timer_test t)
-    {
-      t.i = 1;
+    public static int timercheck(Timer timer, Console cons){
+      while(true){
+        if(timer.isAlive() == false){
+          cons.println("D");
+          cons.sleep(3000);
+          cons.closeWindow();
+          return 1;
+        }
+      }
     }
 
 }
@@ -39,15 +44,22 @@ class DScore {
   public DScore(int score, Console con){
     con.println("Score = " +  score);
   }
+  public static void test(){
+    ;
+  }
 }
 class Timer extends Thread{
     private int time = 1;
     private boolean setting = false;
     private volatile boolean exit = false;
+    private Console con = null;
 
-    Console con = new Console("Seconds left");
-
-    @Override
+    public Timer(Console con){
+      this.con = con;
+    }
+    public boolean getStatus(){
+      return exit;
+    }
     public void run(){
         while(exit != true){
             try {
@@ -65,12 +77,6 @@ class Timer extends Thread{
     public void stopi(){
       exit = true;
       con.closeWindow();
-      Console cons = new Console();
-      cons.sleep(2000);
-      DScore s = new DScore(300, cons);
-      catchTimer(test);
-
-      cons.println("Over");
     }
     public synchronized int getTime(){
         while(setting){
@@ -108,11 +114,9 @@ class Timer7 extends Thread{
                 }
 
                 if(timer.getTime() % 5 == 0){
-                    test.i = 0;
 
                     timer.stopi();
 
-                    test.catchTimer();
                 }
 
             }

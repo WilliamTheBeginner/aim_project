@@ -9,20 +9,7 @@ public class arc_test
   {
     Console con = new Console(1920, 1080);
 
-    for(int i = 0; i < 100; i++)
-    {
-
-      Circle cir = new Circle(50);
-
-      cir.draw(con);
-
-      con.repaint();
-
-      con.println(Arrays.toString(cir.getRadXY()));
-
-      clickCircle(cir, con);
-
-    }
+    Menu menu = new Menu(con);
   }
   public static boolean clickCircle(Circle circle, Console con)
   {
@@ -159,7 +146,8 @@ class Menu
             // choose which timer to use
             TextInputFile infile = new TextInputFile("Settings.txt");
 
-            int radius, seconds;
+            int radius = 0;
+            int seconds = 0;
 
             while(infile.eof() != true)
             {
@@ -177,7 +165,7 @@ class Menu
 
             Console timerConsole = new Console();
 
-            Timer timer = new Timer();
+            Timer timer = new Timer(timerConsole);
             timer.start();
 
             if(seconds == 30){
@@ -188,35 +176,37 @@ class Menu
               t60.start();
             }
 
-            displayCircleGame(radius, con);
-
-
-
-
+            displayCircleGame(radius, con, timer);
 
           case 2:
             // change file options
+            ;
           case 3:
+            ;
           case 4:
+            ;
         }
       }
     }
 
   }
 
-  public int displayCircleGame(int radius, Console con)
+  public static void displayCircleGame(int radius, Console con, Timer timer)
   {
-    while(catchTimer() != true){
-      // display circles
+    int score = 0;
+    while(true){
+      if(timer.isAlive() == false){
+        con.closeWindow();
+        Console cons = new Console();
+        cons.println("Score: " + score);
+      }
       Circle cir = new Circle(radius);
       cir.draw(con);
       con.repaint();
       con.println(Arrays.toString(cir.getRadXY()));
       clickCircle(cir, con);
+      score++;
     }
-  }
-  public static void catchTimer(){
-    return true;
   }
   public void displayMain(Console con)
   {
@@ -307,10 +297,14 @@ class Timer extends Thread{
     private int time = 1;
     private boolean setting = false;
     private volatile boolean exit = false;
+    private Console con = null;
 
-    Console con = new Console("Time left:");
-
-    @Override
+    public Timer(Console con){
+      this.con = con;
+    }
+    public boolean getStatus(){
+      return exit;
+    }
     public void run(){
         while(exit != true){
             try {
@@ -325,11 +319,9 @@ class Timer extends Thread{
             //Switching the order of these 2 ^^^ statements and initializing time to 0 will give an output that is more accurate to the time.
         }
     }
-    public void close() {
+    public void stopi(){
       exit = true;
       con.closeWindow();
-      Console cons = new Console();
-
     }
     public synchronized int getTime(){
         while(setting){
@@ -352,7 +344,7 @@ class Timer30 extends Thread{
     Timer timer;
 
     public int five = 1;
-    public Timer7(Timer t){
+    public Timer30(Timer t){
         this.timer = t;
     }
 
@@ -367,19 +359,18 @@ class Timer30 extends Thread{
                 }
 
                 if(timer.getTime() % 30 == 0){
-                    timer.close();
+
+                    timer.stopi();
+
                 }
 
             }
         }
     }
 }
-
 class Timer60 extends Thread{
     Timer timer;
-
-    public int five = 1;
-    public Timer7(Timer t){
+    public Timer60(Timer t){
         this.timer = t;
     }
 
@@ -394,19 +385,10 @@ class Timer60 extends Thread{
                 }
 
                 if(timer.getTime() % 60 == 0){
-                    timer.close();
+                    System.out.print("\n15 Second Message\n");
                 }
 
             }
         }
     }
-}
-
-class DScore {
-  public DScore(){
-    ;
-  }
-  public DScore(int score, Console con){
-    con.println("Game over. Score: " + score);
-  }
 }
