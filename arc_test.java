@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class arc_test
+public class test
 {
   public static void main(String[] args)
   {
@@ -181,11 +181,13 @@ class Menu
   }
   public void displayMain(Console con)
   {
-    Button start = new Button(300, 500, 500, 200);
-    con.drawString("Start Game",475,570);
-    Button options = new Button(300, 790, 500, 200);
-    Button help = new Button(1120, 500, 500, 200);
-    Button quit = new Button(1120, 790, 500, 200);
+	BufferedImage mainmenu = con.loadImage("mainmenu.jpg");
+	con.drawImage(mainmenu, 0, 0);
+	con.repaint();
+    Button start = new Button(305, 590, 545, 216);
+    Button options = new Button(285, 858, 585, 185);
+    Button help = new Button(1025, 595, 635, 205);
+    Button quit = new Button(1080, 830, 525, 200);
 
     start.draw(con);
     options.draw(con);
@@ -236,6 +238,25 @@ class Menu
     con.fillRect(0, 0, 1920, 1080);
     con.repaint();
   }
+  public static boolean displayOptions(Console con){
+	  BufferedImage options = con.loadImage("options.jpg");
+	  con.drawImage(options, 0, 0);
+	  con.repaint();
+	  String duration, radius;
+	  int duration, radius;
+	  // for radius -
+	  TextInputFile infile = new TextInputFile("Settings.txt");
+	  while(infile.eof() != true){
+		duration = infile.readInt();
+		radius = infile.readInt();
+	  }
+	  
+	  while(true){
+		 int mouseX = con.currentMouseX();
+	     int mouseY = con.currentMouseY();
+		 if(between(mouseX, 610, 727) && between(mouseY, 346, 401)){
+			 
+	  
   public int menuClick(Console con)
   {
     while (true)
@@ -245,19 +266,19 @@ class Menu
 
       if(con.currentMouseButton() == 1)
       {
-        if(between(mouseX, 300, 800) && between(mouseY, 500, 700))
+        if(between(mouseX, 305, 850) && between(mouseY, 590, 806))
         {
           return 1;
         }
-        else if(between(mouseX, 300, 800) && between(mouseY, 790, 1190))
+        else if(between(mouseX, 285, 870) && between(mouseY, 858, 1043))
         {
           return 2;
         }
-        else if(between(mouseX, 1120, 1620) && between(mouseY, 500, 700))
+        else if(between(mouseX, 1025, 1660) && between(mouseY, 595, 800))
         {
           return 3;
         }
-        else if(between(mouseX, 1120, 1620) && between(mouseY, 790, 1190))
+        else if(between(mouseX, 1080, 1605) && between(mouseY, 830, 1130))
         {
           return 4;
         }
