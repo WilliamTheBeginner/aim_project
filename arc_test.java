@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class test
+public class arc_test_2
 {
   public static void main(String[] args)
   {
@@ -27,7 +27,6 @@ class Circle
 	  this.radX = (int)(Math.random() * 1845);
 	  this.radY = (int)(Math.random() * 1005);
   }
-
   // experiementory. The radiuses cannot exceed the dimensions
   public Circle(int radius)
   {
@@ -95,6 +94,8 @@ class Button
 
 class Menu
 {
+  static int score = 0;
+  
   public Menu(Console con)
   {
     displayMain(con);
@@ -150,8 +151,7 @@ class Menu
             displayCircleGame(radius, con, timer);
 
           case 2:
-            // change file options
-            ;
+            displayOptions(con);
           case 3:
             ;
           case 4:
@@ -164,19 +164,21 @@ class Menu
 
   public static void displayCircleGame(int radius, Console con, Timer timer)
   {
-    int score = 0;
     while(true){
       if(timer.isAlive() == false){
         con.closeWindow();
         Console cons = new Console();
         cons.println("Score: " + score);
       }
+	  
       Circle cir = new Circle(radius);
       cir.draw(con);
       con.repaint();
       con.println(Arrays.toString(cir.getRadXY()));
       clickCircle(cir, con);
       score++;
+      
+      
     }
   }
   public void displayMain(Console con)
@@ -225,8 +227,8 @@ class Menu
 		  {
 			  if(((Math.pow((con.currentMouseX() - radX), 2) + Math.pow((con.currentMouseY() - radY), 2)) < Math.pow(circle.getRadius(), 2)))
 			  {
-          clearConsoleMenu(con);
-          return true;
+				  clearConsoleMenu(con);
+				  return true;
 			  }
 		  }
       //con.currentMouseButton() = 0;
@@ -238,38 +240,41 @@ class Menu
     con.fillRect(0, 0, 1920, 1080);
     con.repaint();
   }
-  public static boolean displayOptions(Console con){
+  public boolean displayOptions(Console con){
 	  BufferedImage options = con.loadImage("options.jpg");
 	  con.drawImage(options, 0, 0);
 	  con.repaint();
-	  String duration, radius;
+	  String strduration, strradius;
 	  int duration, radius;
-	  // for radius -
 	  TextInputFile infile = new TextInputFile("Settings.txt");
 	  while(infile.eof() != true){
 		duration = infile.readInt();
 		radius = infile.readInt();
 	  }
 	  int curRadIndex = 0;
-	  int [] rad_arr = int[]{30, 60, 75, 100};
+	  int [] rad_arr = {30, 60, 75, 100};
 	  int curDurIndex = 0;
-	  int [] dur_arr = int[]{30, 60};
+	  int [] dur_arr = {30, 60};
 	  
 	  while(true){
+		  
 		 int mouseX = con.currentMouseX();
 	     int mouseY = con.currentMouseY();
-		 if(between(mouseX, 610, 727) && between(mouseY, 346, 401)){
-			 //left top
-		}
-		 if(between(mouseX, 1093, 1212) && between(mouseY, 345, 402)){
+	     if(con.currentMouseButton() == 1){
+			 if(between(mouseX, 1093, 1212) && between(mouseY, 345, 402)){
 			 //right top
+			 con.println(rad_arr[curRadIndex]);
+			 con.sleep(1000);
+			 curRadIndex = (curRadIndex) % rad_arr.length;
+			 }
+			 if(between(mouseX, 1092, 1212) && between(mouseY, 502, 553)){
+				 con.println(dur_arr[curDurIndex]);
+				 curDurIndex = (curDurIndex) % dur_arr.length;
+			 }
 		 }
-		 if(between(mouseX, 610, 727) && between(mouseY, 503, 555)){
-			 //left bottom
-		 }
-		 if(between(mouseX, 1092, 1212) && between(mouseY, 502, 553)
-			 //right bottem
-		 }
+	  }
+	  
+  }
 		 
 	 
 	  
