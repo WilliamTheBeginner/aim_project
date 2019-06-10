@@ -250,12 +250,28 @@ class Menu
 		duration = infile.readInt();
 		radius = infile.readInt();
 	  }
+	  int curRadIndex = 0;
+	  int [] rad_arr = int[]{30, 60, 75, 100};
+	  int curDurIndex = 0;
+	  int [] dur_arr = int[]{30, 60};
 	  
 	  while(true){
 		 int mouseX = con.currentMouseX();
 	     int mouseY = con.currentMouseY();
 		 if(between(mouseX, 610, 727) && between(mouseY, 346, 401)){
-			 
+			 //left top
+		}
+		 if(between(mouseX, 1093, 1212) && between(mouseY, 345, 402)){
+			 //right top
+		 }
+		 if(between(mouseX, 610, 727) && between(mouseY, 503, 555)){
+			 //left bottom
+		 }
+		 if(between(mouseX, 1092, 1212) && between(mouseY, 502, 553)
+			 //right bottem
+		 }
+		 
+	 
 	  
   public int menuClick(Console con)
   {
