@@ -94,7 +94,7 @@ class Button
 
 class Menu
 {
-  static int score = 0;
+  int score = 0;
   
   public Menu(Console con)
   {
@@ -175,7 +175,7 @@ class Menu
 
   }
 
-  public static void displayCircleGame(int radius, Console con, Timer timer)
+  public void displayCircleGame(int radius, Console con, Timer timer)
   {
     while(true){
       if(timer.isAlive() == false){
