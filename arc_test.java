@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class arc_test_2
+public class test
 {
   public static void main(String[] args)
   {
@@ -146,16 +146,29 @@ class Menu
               t60.start();
             }
 
-            //something is wrong with vv
-
             displayCircleGame(radius, con, timer);
+            
+            displayEnding();
+            
+            con = new Console(1920, 1080);
+            
+            Menu menu = new Menu(con);
 
           case 2:
             displayOptions(con);
+            
+            menu = new Menu(con);
           case 3:
-            ;
+            displayHelp(con);
+
+            menu = new Menu(con);
           case 4:
-            ;
+            Console credits = new Console();
+            credits.println("Developer: William Kwan");
+            credits.println("Inspired by: Mr. Astorino");
+            credits.println("Special thanks to Alfred Cadawas for the ARC library");
+            credits.sleep(5000);
+            credits.closeConsole();
         }
       }
     }
@@ -167,8 +180,7 @@ class Menu
     while(true){
       if(timer.isAlive() == false){
         con.closeWindow();
-        Console cons = new Console();
-        cons.println("Score: " + score);
+        return;
       }
 	  
       Circle cir = new Circle(radius);
@@ -181,8 +193,43 @@ class Menu
       
     }
   }
+  public void displayEnding(){
+	  Console cons = new Console(1920, 1080);
+	  cons.repaint();
+	  BufferedImage end = cons.loadImage("final.jpg");
+	  cons.drawImage(end, 0, 0);
+	  cons.drawString(Integer.toString(score), 257, 368);
+	  cons.repaint();
+	  while(true){
+		  int mouseX = cons.currentMouseX();
+		  int mouseY = cons.currentMouseY();
+		  if(cons.currentMouseButton() == 1){
+			  if(between(mouseX, 1524, 1916) && between(mouseY, 980, 1079)){
+				  cons.closeWindow();
+				  return;
+			  }
+		  }
+	  }
+  }
+		
+  public void displayHelp(Console con){
+	  BufferedImage help = con.loadImage("help.jpg");
+	  con.drawImage(help, 0, 0);
+	  con.repaint();
+	  while(true){
+		  int mouseX = con.currentMouseX();
+		  int mouseY = con.currentMouseY();
+		  if(con.currentMouseButton() == 1){
+			  if(between(mouseX, 1519, 1913) && between(mouseY, 978, 1077)){
+				  return;
+				}
+				
+			}
+		}
+	}
   public void displayMain(Console con)
   {
+	con.repaint();
 	BufferedImage mainmenu = con.loadImage("mainmenu.jpg");
 	con.drawImage(mainmenu, 0, 0);
 	con.repaint();
@@ -240,21 +287,30 @@ class Menu
     con.fillRect(0, 0, 1920, 1080);
     con.repaint();
   }
-  public boolean displayOptions(Console con){
+  public void displayOptions(Console con){
 	  BufferedImage options = con.loadImage("options.jpg");
 	  con.drawImage(options, 0, 0);
 	  con.repaint();
-	  String strduration, strradius;
-	  int duration, radius;
-	  TextInputFile infile = new TextInputFile("Settings.txt");
-	  while(infile.eof() != true){
-		duration = infile.readInt();
-		radius = infile.readInt();
-	  }
-	  int curRadIndex = 0;
-	  int [] rad_arr = {30, 60, 75, 100};
-	  int curDurIndex = 0;
-	  int [] dur_arr = {30, 60};
+	  int duration = 0, radius = 0;
+	  
+	  duration = 60;
+	  radius = 60;
+	  
+	  Integer [] rad_arr = {30, 60, 75, 100};
+	  int curRadIndex = Arrays.binarySearch(rad_arr, radius);
+	  
+	  Integer [] dur_arr = {30, 60};
+	  int curDurIndex = Arrays.binarySearch(dur_arr, duration);
+	  BufferedImage cover = con.loadImage("settings_fill.jpg");
+	  
+	  String strRadius = Integer.toString(rad_arr[curRadIndex]);
+	  String strDuration = Integer.toString(dur_arr[curDurIndex]);
+	  
+	  con.drawString(strRadius, 863, 356);
+	  con.drawString(strDuration, 863, 512);
+	  
+	  
+	  con.repaint();
 	  
 	  while(true){
 		  
@@ -262,14 +318,32 @@ class Menu
 	     int mouseY = con.currentMouseY();
 	     if(con.currentMouseButton() == 1){
 			 if(between(mouseX, 1093, 1212) && between(mouseY, 345, 402)){
-			 //right top
-			 con.println(rad_arr[curRadIndex]);
-			 con.sleep(1000);
-			 curRadIndex = (curRadIndex) % rad_arr.length;
+				 strRadius = Integer.toString(rad_arr[curRadIndex]);
+				 con.drawImage(cover, 863, 356);
+				 con.repaint();
+				 con.drawString(strRadius, 863, 356);
+				 con.repaint();
+				 radius = rad_arr[curRadIndex];
+				 con.sleep(100);
+				 curRadIndex = (curRadIndex + 1) % rad_arr.length;
 			 }
 			 if(between(mouseX, 1092, 1212) && between(mouseY, 502, 553)){
-				 con.println(dur_arr[curDurIndex]);
-				 curDurIndex = (curDurIndex) % dur_arr.length;
+				 strDuration = Integer.toString(dur_arr[curDurIndex]);
+				 con.drawImage(cover, 863, 509);
+				 con.repaint();
+				 con.drawString(strDuration, 863, 512);
+				 con.repaint();
+				 duration = dur_arr[curDurIndex];
+				 con.sleep(100);
+				 curDurIndex = (curDurIndex + 1) % dur_arr.length;
+			 }
+			 if(between(mouseX, 1139, 1504) && between(mouseY, 933, 1078)){
+				 TextOutputFile outfile = new TextOutputFile("Settings.txt", false);
+				 outfile.println(radius);
+				 outfile.println(duration);
+			 }
+			 if(between(mouseX, 1505, 1913) && between(mouseY, 932, 1077)){
+				 return;
 			 }
 		 }
 	  }
