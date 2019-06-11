@@ -2,8 +2,9 @@ import arc.*;
 import java.util.Arrays;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.Font;
 
-public class test
+public class arc_test
 {
   public static void main(String[] args)
   {
@@ -95,7 +96,7 @@ class Button
 class Menu
 {
   int score = 0;
-  
+
   public Menu(Console con)
   {
     displayMain(con);
@@ -114,12 +115,11 @@ class Menu
 
             int radius = 0;
             int seconds = 0;
+            int gun = 0;
 
-            while(infile.eof() != true)
-            {
-              radius = infile.readInt();
-              seconds = infile.readInt();
-            }
+            radius = infile.readInt();
+            seconds = infile.readInt();
+            gun = infile.readInt();
 
             clearConsoleMenu(con);
 
@@ -131,7 +131,7 @@ class Menu
               con.sleep(1000);
             }
 
-            Console timerConsole = new Console();
+            Console timerConsole = new Console(200, 100);
             Timer timer = new Timer(timerConsole);
 
             if(seconds == 30){
@@ -146,20 +146,32 @@ class Menu
               t60.start();
             }
 
-            displayCircleGame(radius, con, timer);
-            
+            boolean bln_gun;
+
+            if(gun == 0){
+              bln_gun = true;
+            } else {
+              bln_gun = false;
+            }
+
+            displayCircleGame(radius, con, bln_gun, timer);
+
             displayEnding();
-            
+
             con = new Console(1920, 1080);
-            
+
             Menu menu = new Menu(con);
 
           case 2:
             displayOptions(con);
-            
+
+            con.sleep(100);
+
             menu = new Menu(con);
           case 3:
             displayHelp(con);
+
+            con.sleep(300);
 
             menu = new Menu(con);
           case 4:
@@ -175,30 +187,36 @@ class Menu
 
   }
 
-  public void displayCircleGame(int radius, Console con, Timer timer)
+  public void displayCircleGame(int radius, Console con, boolean reset,Timer timer)
   {
     while(true){
       if(timer.isAlive() == false){
         con.closeWindow();
         return;
       }
-	  
+
       Circle cir = new Circle(radius);
+      if(reset){
+        con.closeWindow();
+        con = new Console(1920, 1080);
+      }
       cir.draw(con);
       con.repaint();
       con.println(Arrays.toString(cir.getRadXY()));
       clickCircle(cir, con);
       score++;
-      
-      
+
+
     }
   }
   public void displayEnding(){
 	  Console cons = new Console(1920, 1080);
+    Font font = cons.loadFont("Burbank.ttf", 100);
 	  cons.repaint();
 	  BufferedImage end = cons.loadImage("final.jpg");
+    cons.setDrawFont(font);
 	  cons.drawImage(end, 0, 0);
-	  cons.drawString(Integer.toString(score), 257, 368);
+	  cons.drawString(Integer.toString(score), 257, 330);
 	  cons.repaint();
 	  while(true){
 		  int mouseX = cons.currentMouseX();
@@ -211,7 +229,7 @@ class Menu
 		  }
 	  }
   }
-		
+
   public void displayHelp(Console con){
 	  BufferedImage help = con.loadImage("help.jpg");
 	  con.drawImage(help, 0, 0);
@@ -223,7 +241,7 @@ class Menu
 			  if(between(mouseX, 1519, 1913) && between(mouseY, 978, 1077)){
 				  return;
 				}
-				
+
 			}
 		}
 	}
@@ -288,32 +306,44 @@ class Menu
     con.repaint();
   }
   public void displayOptions(Console con){
-	  BufferedImage options = con.loadImage("options.jpg");
+	  BufferedImage options = con.loadImage("options_updated.jpg");
 	  con.drawImage(options, 0, 0);
 	  con.repaint();
-	  int duration = 0, radius = 0;
-	  
-	  duration = 60;
-	  radius = 60;
-	  
+	  int duration = 0, radius = 0, gun = 0;
+
+	  TextInputFile infile = new TextInputFile("Settings.txt");
+
+    radius = infile.readInt();
+    duration = infile.readInt();
+    gun = infile.readInt();
+
 	  Integer [] rad_arr = {30, 60, 75, 100};
 	  int curRadIndex = Arrays.binarySearch(rad_arr, radius);
-	  
+
 	  Integer [] dur_arr = {30, 60};
 	  int curDurIndex = Arrays.binarySearch(dur_arr, duration);
 	  BufferedImage cover = con.loadImage("settings_fill.jpg");
-	  
+    BufferedImage gun_cover = con.loadImage("gun_fill.jpg");
+
 	  String strRadius = Integer.toString(rad_arr[curRadIndex]);
 	  String strDuration = Integer.toString(dur_arr[curDurIndex]);
-	  
+    String strGun = "Selected";
+
+    if(gun == 0){
+      con.drawString("Selected", 262, 903);
+    }
+    else{
+      con.drawString("Selected", 648, 897);
+    }
+
 	  con.drawString(strRadius, 863, 356);
 	  con.drawString(strDuration, 863, 512);
-	  
-	  
+
+
 	  con.repaint();
-	  
+
 	  while(true){
-		  
+
 		 int mouseX = con.currentMouseX();
 	     int mouseY = con.currentMouseY();
 	     if(con.currentMouseButton() == 1){
@@ -337,21 +367,37 @@ class Menu
 				 con.sleep(100);
 				 curDurIndex = (curDurIndex + 1) % dur_arr.length;
 			 }
+       if(between(mouseX, 256, 484) && between(mouseY, 637, 822)){
+         con.drawString(strGun, 262, 903);
+         con.drawImage(gun_cover, 648, 903);
+         con.repaint();
+         gun = 0;
+         con.sleep(100);
+
+       }
+       if(between(mouseX, 628, 972) && between(mouseY, 646, 829)){
+         con.drawString(strGun, 648, 903);
+         con.drawImage(gun_cover, 262, 903);
+         con.repaint();
+         gun = 1;
+         con.sleep(100);
+       }
 			 if(between(mouseX, 1139, 1504) && between(mouseY, 933, 1078)){
 				 TextOutputFile outfile = new TextOutputFile("Settings.txt", false);
 				 outfile.println(radius);
 				 outfile.println(duration);
+         outfile.println(gun);
 			 }
 			 if(between(mouseX, 1505, 1913) && between(mouseY, 932, 1077)){
 				 return;
 			 }
 		 }
 	  }
-	  
+
   }
-		 
-	 
-	  
+
+
+
   public int menuClick(Console con)
   {
     while (true)
