@@ -33,6 +33,9 @@ For example:
 /home/william/Documents/aim_project
 ```
 #### Compile 
+##### Windows 
+If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` with respective file locations. 
+##### Windows MacOS Linux
 With your working directory set, insert the following compile command
 ```
 javac -cp "arc.jar" ./src/*.java`
