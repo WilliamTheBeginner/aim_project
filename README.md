@@ -34,7 +34,7 @@ For example:
 ```
 #### Compile 
 ##### Windows 
-If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` with respective file locations. 
+If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` with respective file locations (`/path/to/javac`) and (`/path/to/javac`) 
 ##### Windows MacOS Linux
 With your working directory set, insert the following compile command
 ```
@@ -47,6 +47,10 @@ After compiling, insert the following command to execute.
 ```
 java -classpath "./arc.jar;." src.arc_test
 ```
+##### Linux MacOS
+```
+java -classpath "./arc.jar:." src.arc_test
+```
 This will execute with `arc.jar` in the working directory. It will use `src.arc_test` as `Main` to execute. 
 
 ## Source Code
@@ -54,7 +58,20 @@ All source code is located in `/aim__project/src`. Images required is located in
 ### Github
 https://github.com/WilliamTheBeginner/aim_project/
 
+## TroubleShooting
+### Compiling and Executing
+Ensure you are in the right directory: `/aim_project/` in order to compile and execute. Commands will not work going into `/aim_project/src`. 
+
+If running in `Geany`, ensure working directory is set in build commands. Otherwise, `Geany` will run from `root`. 
+
+If `java` is not set in `PATH` variable, replace all `java` and `javac` commands with `/path/to/java` and `/path/to/javac` in order to compile and execute.
+```
+"C:/Program Files/(jdk version)/bin/java"
+```
+
 ## Credits
 Developer: William Kwan
+
 `arc.jar` library: Alfred Ron Cadawas
+
 Course Manager: Daniel Astorino
