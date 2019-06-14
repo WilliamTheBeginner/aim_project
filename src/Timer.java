@@ -6,49 +6,49 @@ import src.*;
 
 
 public class Timer extends Thread{
-    private int time = 1;
-    private boolean setting = false;
-    private volatile boolean exit = false;
+    private int intTime = 1;
+    private boolean blnSetting = false;
+    private volatile boolean blnExit = false;
     private Console con = null;
-    private int dur;
+    private int intDur;
 
     public Timer(Console con){
       this.con = con;
     }
-    public void addDur(int dur){
-      this.dur = dur;
+    public void addDur(int intDur){
+      this.intDur = intDur;
     }
     public boolean getStatus(){
-      return exit;
+      return blnExit;
     }
     public void run(){
-        while(exit != true){
+        while(blnExit != true){
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             con.clear();
-            con.print(dur - time + " ");
-            setTime(time + 1);
+            con.print(intDur - intTime + " ");
+            setTime(intTime + 1);
         }
     }
     public void stopi(){
-      exit = true;
+      blnExit = true;
       con.closeWindow();
     }
     public synchronized int getTime(){
-        while(setting){
+        while(blnSetting){
             try {
                 wait(); //This will only be run on the off-chance that setTime is being run at the same time.
             } catch (InterruptedException e) {  }
         }
-        return time;
+        return intTime;
     }
     public synchronized void setTime(int t){
-        setting = true;
-        this.time = t;
-        setting = false;
+        blnSetting = true;
+        this.intTime = t;
+        blnSetting = false;
         notifyAll();
     }
 }

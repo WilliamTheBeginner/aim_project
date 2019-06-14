@@ -6,48 +6,48 @@ import java.awt.*;
 import src.*;
 
 public class Circle{
-  final int dimX = 1920;
-  final int dimY = 1080;
+  final int intDimX = 1920;
+  final int intDimY = 1080;
 
-  private int radius;
-  private int radX;
-  private int radY;
+  private int intRadius;
+  private int intRadX;
+  private int intRadY;
 
   public Circle()
   {
-	  this.radius = 75;
-	  this.radX = (int)(Math.random() * 1845);
-	  this.radY = (int)(Math.random() * 1005);
+	  this.intRadius = 75;
+	  this.intRadX = (int)(Math.random() * 1845);
+	  this.intRadY = (int)(Math.random() * 1005);
   }
-  // experiementory. The radiuses cannot exceed the dimensions
-  public Circle(int radius)
+  // experiementory. The intRadiuses cannot exceed the dimensions
+  public Circle(int intRadius)
   {
-	  this.radius = radius;
-	  this.radX = (int)(Math.random() * (dimX - radius));
-	  this.radY = (int)(Math.random() * (dimY - radius));
+	  this.intRadius = intRadius;
+	  this.intRadX = (int)(Math.random() * (intDimX - intRadius));
+	  this.intRadY = (int)(Math.random() * (intDimY - intRadius));
   }
 
   public int getRadius()
   {
-	  return radius;
+	  return intRadius;
   }
 
   public int [] getRadXY()
   {
 	  int arr[] = new int[2];
 
-	  arr[0] = radX;
-	  arr[1] = radY;
+	  arr[0] = intRadX;
+	  arr[1] = intRadY;
 
 	  return arr;
   }
 
   public void draw(Console con)
   {
-	  int drawX = radX - radius;
-	  int drawY = radY - radius;
+	  int intDrawX = intRadX - intRadius;
+	  int intDrawY = intRadY - intRadius;
     con.setDrawColor(Color.WHITE);
-	  con.drawOval(drawX, drawY, radius * 2, radius * 2);
+	  con.drawOval(intDrawX, intDrawY, intRadius * 2, intRadius * 2);
   }
   public void appearImage(java.awt.image.BufferedImage theImage)
   {

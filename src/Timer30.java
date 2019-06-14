@@ -6,7 +6,6 @@ import src.*;
 class Timer30 extends Thread{
     Timer timer;
 
-    public int five = 1;
     public Timer30(Timer t){
         this.timer = t;
     }

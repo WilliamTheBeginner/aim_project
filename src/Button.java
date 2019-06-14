@@ -5,29 +5,29 @@ import src.*;
 
 public class Button
 {
-  private int length;
-  private int width;
-  private int dimX;
-  private int dimY;
+  private int intLength;
+  private int intWidth;
+  private int intDimX;
+  private int intDimY;
 
-  public Button(int dimX, int dimY, int length, int width)
+  public Button(int intDimX, int intDimY, int intLength, int intWidth)
   {
-    this.length = length;
-    this.width = width;
-    this.dimX = dimX;;
-    this.dimY = dimY;
+    this.intLength = intLength;
+    this.intWidth = intWidth;
+    this.intDimX = intDimX;;
+    this.intDimY = intDimY;
   }
 
   public void draw(Console con)
   {
-    con.drawRect(dimX, dimY, length, width);
+    con.drawRect(intDimX, intDimY, intLength, intWidth);
   }
   public int [] getDims()
   {
-    int arr[] = new int[2];
-    arr[0] = dimX;
-    arr[1] = dimY;
-    return arr;
+    int intDim[] = new int[2];
+    intDim[0] = intDimX;
+    intDim[1] = intDimY;
+    return intDim;
   }
 
 }
