@@ -327,8 +327,11 @@ public class Menu
 				 con.repaint();
 				 con.drawString(strRadius, 863, 356);
 				 con.repaint();
+				 // change int radius to current radius
 				 intRadius = rad_arr[curRadIndex];
+				 // sleep for 100 seconds to make it easier for the user
 				 con.sleep(100);
+				 // iterate through the array
 				 curRadIndex = (curRadIndex + 1) % rad_arr.length;
 			 }
 			 if(between(intMouseX, 1092, 1212) && between(intMouseY, 502, 553)){
@@ -337,31 +340,42 @@ public class Menu
 				 con.repaint();
 				 con.drawString(strDuration, 863, 512);
 				 con.repaint();
+				 // change int duration to current radius
 				 intDuration = dur_arr[curDurIndex];
+				 // sleep for 100 seconds to make it easier for the user
 				 con.sleep(100);
+				 // iterate through the array
 				 curDurIndex = (curDurIndex + 1) % dur_arr.length;
 			 }
+	// if the player selects gun 0
        if(between(intMouseX, 256, 484) && between(intMouseY, 637, 822)){
          con.drawString(strGun, 262, 903);
+	 // draw a cover over the other gun
          con.drawImage(intGun_cover, 648, 903);
          con.repaint();
+	 // replace gun with gun 0
          intGun = 0;
          con.sleep(100);
 
        }
+	// if the player selects gun 0
        if(between(intMouseX, 628, 972) && between(intMouseY, 646, 829)){
          con.drawString(strGun, 648, 903);
+	 // draw a cover over the other gun
          con.drawImage(intGun_cover, 262, 903);
          con.repaint();
+	 // replace gun with gun 0
          intGun = 1;
          con.sleep(100);
        }
+		     // if the user clicks apply, print the updated changes to the textfile
 			 if(between(intMouseX, 1139, 1504) && between(intMouseY, 933, 1078)){
 				 TextOutputFile outfile = new TextOutputFile("Settings.txt", false);
 				 outfile.println(intRadius);
 				 outfile.println(intDuration);
          outfile.println(intGun);
 			 }
+		     	// if the user clicks back, return no value
 			 if(between(intMouseX, 1505, 1913) && between(intMouseY, 932, 1077)){
 				 return;
 			 }
