@@ -32,9 +32,14 @@ For example:
 ```
 /home/william/Documents/aim_project
 ```
+##### Windows
+`Working Directory` might look something like this:
+```
+C:\Users\William\Downloads\aim_project
+```
 #### Compile 
 ##### Windows 
-If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` with respective file locations (`/path/to/javac`) and (`/path/to/javac`) 
+If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` with respective file locations (`"/path/to/javac"`) and (`"/path/to/java"`) 
 ##### Windows MacOS Linux
 With your working directory set, insert the following compile command
 ```
