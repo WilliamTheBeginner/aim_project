@@ -38,7 +38,7 @@ If `/bin/java` isn't set to your user PATH variable, replace `java` and `javac` 
 ##### Windows MacOS Linux
 With your working directory set, insert the following compile command
 ```
-javac -cp "arc.jar" ./src/*.java`
+javac -cp "arc.jar" ./src/*.java
 ```
 This compiles all `.java` files in `/aim_project/src`. 
 
@@ -68,6 +68,8 @@ If `java` is not set in `PATH` variable, replace all `java` and `javac` commands
 ```
 "C:/Program Files/(jdk version)/bin/java"
 ```
+### Other Issues
+Institution Email: hoikin.kwan20@ycdsbk12.ca
 
 ## Credits
 Developer: William Kwan
